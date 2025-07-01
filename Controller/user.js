@@ -1,3 +1,4 @@
+require('dotenv').config();
 // const express = require('express');
 // const router = express.Router();
 // const User = require('../model/user'); // Make sure the path is correct
@@ -31,7 +32,7 @@ const User = require('../model/user');
 
 const router = express.Router();
 
-const JWT_SECRET = 'your_jwt_secret_key'; 
+const { JWT_SECRET} = process.env;
 // Signup Route
 router.post('/signup', [
   body('name').notEmpty().withMessage('Name is required'),

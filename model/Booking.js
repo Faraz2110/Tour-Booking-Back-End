@@ -14,7 +14,7 @@ const bookingSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  imageUrl: {
+  photo: {
     type: String,
     default: '', // optional field with default fallback
   }

@@ -17,7 +17,7 @@ const userRoutes = require('./Controller/user.js');
 const app = express();
 
 // Environment variables
-const { MONGO_URI, PORT = 3001 } = process.env;
+const { MONGO_URI,JWT_SECRET, PORT = 3001 } = process.env;
 
 // Serve static files from uploads directory
 const randomString = (length) => {
@@ -38,19 +38,19 @@ const storage = multer.diskStorage({
   }
 });
 
-// const fileFilter = (req, file, cb) => {
-//   if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg') {
-//     cb(null, true);
-//   } else {
-//     cb(null, false);
-//   }
-// }
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg') {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+}
 
 const multerOptions = {
-  storage
+  storage,fileFilter
 };
 // app.use(multer(multerOptions).single('photo'));
-// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
 
@@ -62,7 +62,7 @@ app.use(express.static(path.join(rootDir, 'Public')));
 app.use(cors()); // Enable CORS
 app.use(express.json()); // Parse JSON request bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded request bodies
-app.use(multer(multerOptions).single('imageUrl')); // Handle single file upload under field name 'imageUrl'
+app.use(multer(multerOptions).single('photo')); // Handle single file upload under field name 'photo'
 
 // API routes
 app.use('/api', bookingRoutes); // Booking-related routes

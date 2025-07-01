@@ -22,9 +22,9 @@ const Booking = require('../model/Booking.js');
 // router.post('/bookings', upload.single('image'), async (req, res) => {
 //   try {
 //     const { name, from, to, price } = req.body;
-//     const imageUrl = req.file ? `/uploads/${req.file.filename}` : '';
+//     const photo = req.file ? `/uploads/${req.file.filename}` : '';
 
-//     const newBooking = new Booking({ name, from, to, price, imageUrl });
+//     const newBooking = new Booking({ name, from, to, price, photo });
 //     await newBooking.save();
 
 //     res.status(201).json(newBooking);
@@ -35,15 +35,17 @@ const Booking = require('../model/Booking.js');
 
 router.post('/bookings', async (req, res) => {
   try {
-    const { name, from, price, imageUrl } = req.body; // include imageUrl
+    const { name, from, price } = req.body; // include photo
  
-    // console.log(req.file)
-    console.log( name, from, price, imageUrl)
+    console.log(req.file);
+    console.log( name, from, price);
+    const photo=req.file.path
+    
     const newBooking = new Booking({
       name,
       from,
       price,
-      imageUrl
+      photo
     });
 
     await newBooking.save();
