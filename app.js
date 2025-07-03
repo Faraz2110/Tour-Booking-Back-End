@@ -1,25 +1,23 @@
-// Load environment variables
+
 require('dotenv').config();
 
-// Import dependencies
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const multer = require('multer');
 const path = require('path');
 
-// Import custom modules
+
 const ConnectDB = require('./db/index.js');
 const bookingRoutes = require('./Controller/Booking.js');
 const userRoutes = require('./Controller/user.js');
 
-// Create Express app
+
 const app = express();
 
-// Environment variables
+
 const { MONGO_URI,JWT_SECRET, PORT = 3001 } = process.env;
 
-// Serve static files from uploads directory
 const randomString = (length) => {
   const characters = 'abcdefghijklmnopqrstuvwxyz';
   let result = '';
@@ -49,20 +47,16 @@ const fileFilter = (req, file, cb) => {
 const multerOptions = {
   storage,fileFilter
 };
-// app.use(multer(multerOptions).single('photo'));
+
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-
-
-// Serve frontend static files (optional, if you have a public folder)
 const rootDir = __dirname;
 app.use(express.static(path.join(rootDir, 'Public')));
 
 // Middleware setup
-app.use(cors()); // Enable CORS
-app.use(express.json()); // Parse JSON request bodies
-app.use(express.urlencoded({ extended: true })); // Parse URL-encoded request bodies
-app.use(multer(multerOptions).single('photo')); // Handle single file upload under field name 'photo'
+app.use(cors()); 
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: true })); 
+app.use(multer(multerOptions).single('photo')); 
 
 // API routes
 app.use('/api', bookingRoutes); // Booking-related routes

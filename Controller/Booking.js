@@ -1,55 +1,21 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
 const path = require('path');
 const Booking = require('../model/Booking.js');
 
-
-// // Multer configuration
-// const storage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, 'uploads/');
-//   },
-//   filename: (req, file, cb) => {
-//     const uniqueName = Date.now() + '-' + file.originalname;
-//     cb(null, uniqueName);
-//   }
-// });
-
-// const upload = multer({ storage });
-
-// Create booking with image upload
-// router.post('/bookings', upload.single('image'), async (req, res) => {
-//   try {
-//     const { name, from, to, price } = req.body;
-//     const photo = req.file ? `/uploads/${req.file.filename}` : '';
-
-//     const newBooking = new Booking({ name, from, to, price, photo });
-//     await newBooking.save();
-
-//     res.status(201).json(newBooking);
-//   } catch (error) {
-//     res.status(400).json({ error: error.message });
-//   }
-// });
-
 router.post('/bookings', async (req, res) => {
   try {
-    const { name, from, price } = req.body; // include photo
- 
+    const { name, from, price } = req.body; 
     console.log(req.file);
     console.log( name, from, price);
     const photo=req.file.path
-    
     const newBooking = new Booking({
       name,
       from,
       price,
       photo
     });
-
     await newBooking.save();
-
     res.status(201).json({
       message: 'Booking added successfully',
       booking: newBooking
@@ -59,16 +25,6 @@ router.post('/bookings', async (req, res) => {
   }
 });
 
-
-// GET request to fetch all tour bookings
-// router.get('/bookings', async (req, res) => {
-//   try {
-//     const bookings = await Booking.find();
-//     res.status(200).json(bookings);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// })
 
 router.get('/bookings', async (req, res) => {
   try {
@@ -82,7 +38,7 @@ router.get('/bookings', async (req, res) => {
 });
 
 
-// ✅ Correct route to get a single booking by ID
+// route to get a single booking by ID
 router.get('/bookings/:id', async (req, res) => {
   try {
     const booking = await Booking.findById(req.params.id);

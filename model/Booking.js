@@ -16,7 +16,7 @@ const bookingSchema = new mongoose.Schema({
   },
   photo: {
     type: String,
-    default: '', // optional field with default fallback
+    default: '',
   }
 }, { timestamps: true });
 
