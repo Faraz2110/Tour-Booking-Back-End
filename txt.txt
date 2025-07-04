@@ -1,6 +1,0 @@
-MONGO_URI=mongodb+srv://farazahmad0090:TGTY5NR1C06MrXDm@cluster0.0ahj6hx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-
-9GxV#gik2QLcvdk
-
-
-MONGO_URI=mongodb+srv://farazahmad702:9GxVgik2QLcvdk@cluster0.w4e5zn6.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
