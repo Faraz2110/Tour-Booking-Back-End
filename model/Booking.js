@@ -42,13 +42,6 @@ const bookingSchema = new mongoose.Schema({
     default: '',
   },
 
-  // ✅ Add this: link booking to the user who created it
-  user: {
-    type: mongoose.Schema.Types.ObjectId, // this is the user's ID
-    ref: 'User',                          // reference the User model
-    required: true,
-  }
-
 }, { timestamps: true });
 
 module.exports = mongoose.model('Booking', bookingSchema);
