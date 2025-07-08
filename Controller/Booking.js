@@ -3,27 +3,27 @@ const router = express.Router();
 const path = require('path');
 const Booking = require('../model/Booking.js');
 
-router.post('/bookings', async (req, res) => {
-  try {
-    const { name, from, price } = req.body; 
-    console.log(req.file);
-    console.log( name, from, price);
-    const photo=req.file.path
-    const newBooking = new Booking({
-      name,
-      from,
-      price,
-      photo
-    });
-    await newBooking.save();
-    res.status(201).json({
-      message: 'Booking added successfully',
-      booking: newBooking
-    });
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-});
+// router.post('/bookings', async (req, res) => {
+//   try {
+//     const { name, from, price } = req.body; 
+//     console.log(req.file);
+//     console.log( name, from, price);
+//     const photo=req.file.path
+//     const newBooking = new Booking({
+//       name,
+//       from,
+//       price,
+//       photo
+//     });
+//     await newBooking.save();
+//     res.status(201).json({
+//       message: 'Booking added successfully',
+//       booking: newBooking
+//     });
+//   } catch (error) {
+//     res.status(400).json({ error: error.message });
+//   }
+// });
 
 
 router.get('/bookings', async (req, res) => {

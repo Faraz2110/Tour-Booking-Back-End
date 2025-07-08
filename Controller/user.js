@@ -52,7 +52,7 @@ router.post(
       if (!isMatch)
         return res.status(400).json({ message: 'Invalid email or password' });
 
-      const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1d' });
+      const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1m' });
 
       res.status(200).json({ token, user: { id: user._id, name: user.name, email: user.email } });
     } catch (err) {
