@@ -16,7 +16,7 @@ const userRoutes = require('./Controller/user.js');
 const app = express();
 
 
-const { MONGO_URI,JWT_SECRET, PORT = 3001 } = process.env;
+const { MONGO_URI, JWT_SECRET, PORT = 3001 } = process.env;
 
 const randomString = (length) => {
   const characters = 'abcdefghijklmnopqrstuvwxyz';
@@ -45,7 +45,7 @@ const fileFilter = (req, file, cb) => {
 }
 
 const multerOptions = {
-  storage,fileFilter
+  storage, fileFilter
 };
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -53,10 +53,10 @@ const rootDir = __dirname;
 app.use(express.static(path.join(rootDir, 'Public')));
 
 // Middleware setup
-app.use(cors()); 
-app.use(express.json()); 
-app.use(express.urlencoded({ extended: true })); 
-app.use(multer(multerOptions).single('photo')); 
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(multer(multerOptions).single('photo'));
 
 // API routes
 app.use('/api', bookingRoutes); // Booking-related routes
@@ -68,9 +68,13 @@ const startServer = async () => {
     await ConnectDB(); // Connect to MongoDB
     console.log('✅ Connected to MongoDB');
 
-    app.listen(PORT, () => {
+    // app.listen(PORT, () => {
+    //   console.log(`✅ Server is running at http://localhost:${PORT}`);
+    // });
+    app.listen(PORT, '0.0.0.0', () => {
       console.log(`✅ Server is running at http://localhost:${PORT}`);
     });
+
   } catch (error) {
     console.error('❌ Failed to connect to MongoDB:', error.message);
     process.exit(1); // Exit with failure

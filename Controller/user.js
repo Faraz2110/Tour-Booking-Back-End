@@ -31,7 +31,7 @@ router.post('/signup', [
 
 // Signin Route
 router.post(
-  '/login',
+  '/SignIn',
   [
     body('email', 'Email is required').isEmail(),
     body('password', 'Password is required').exists(),
@@ -52,8 +52,7 @@ router.post(
       if (!isMatch)
         return res.status(400).json({ message: 'Invalid email or password' });
 
-      const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1m' });
-
+      const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1d' });
       res.status(200).json({ token, user: { id: user._id, name: user.name, email: user.email } });
     } catch (err) {
       console.error(err);
