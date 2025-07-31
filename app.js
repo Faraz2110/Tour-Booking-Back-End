@@ -1,6 +1,5 @@
 
 require('dotenv').config();
-
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -16,7 +15,7 @@ const userRoutes = require('./Controller/user.js');
 const app = express();
 
 
-const { MONGO_URI, JWT_SECRET, PORT = 3001 } = process.env;
+const { PORT = 3001 } = process.env;
 
 const randomString = (length) => {
   const characters = 'abcdefghijklmnopqrstuvwxyz';
@@ -62,6 +61,11 @@ app.use(multer(multerOptions).single('photo'));
 app.use('/api', bookingRoutes); // Booking-related routes
 app.use('/api', userRoutes); // User-related routes
 
+app.get('/ping', (req, res) => {
+  res.send('pong from user routes!');
+  console.log('got acces the api')
+});
+
 // Start server after connecting to DB
 const startServer = async () => {
   try {
@@ -71,7 +75,7 @@ const startServer = async () => {
     // app.listen(PORT, () => {
     //   console.log(`✅ Server is running at http://localhost:${PORT}`);
     // });
-    app.listen(PORT, '0.0.0.0', () => {
+    app.listen(PORT,() => {
       console.log(`✅ Server is running at http://localhost:${PORT}`);
     });
 

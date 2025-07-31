@@ -10,6 +10,7 @@ const router = express.Router();
 
 const { JWT_SECRET} = process.env;
 // Signup Route
+
 router.post('/signup', [
   body('name').notEmpty().withMessage('Name is required'),
   body('email').isEmail().withMessage('Valid email required'),
