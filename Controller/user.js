@@ -5,6 +5,10 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
 const User = require('../model/user');
+const authenticate = require('../utils/authenticate.js'); 
+const upload = require('../utils/upload.js');
+
+
 
 const router = express.Router();
 
@@ -61,5 +65,21 @@ router.post(
     }
   }
 );
+
+// /Controller/user.js
+router.put('/profile-photo', authenticate, upload.single('photo'), async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    user.photo = req.file.path;
+    await user.save();
+
+    res.status(200).json({ message: 'Photo updated', photo: user.photo });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 
 module.exports = router;

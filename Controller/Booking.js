@@ -1,13 +1,15 @@
 const express = require('express');
+const upload = require('../utils/upload.js');
+
 const router = express.Router();
 const path = require('path');
 const Booking = require('../model/Booking.js');
 const authenticate = require('../utils/authenticate.js'); // add this at the top
 
-router.post('/bookings', authenticate, async (req, res) => {
+router.post('/bookings', authenticate, upload.single('photo'), async (req, res) => {
   console.log('🔥 req.user:', req.user);
   try {
-    const { name, from, price,company } = req.body;
+    const { name, from, price, company } = req.body;
     const photo = req.file ? req.file.path : null;
 
     const newBooking = new Booking({
@@ -29,9 +31,6 @@ router.post('/bookings', authenticate, async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
-
-
-
 
 router.get('/bookings', async (req, res) => {
   try {
@@ -60,10 +59,11 @@ router.get('/bookings/:id', async (req, res) => {
 
 
 // PUT: Update Booking (only if user is owner)
-router.put('/bookings/:id', authenticate, async (req, res) => {
+router.put('/bookings/:id', authenticate, upload.single('photo'), async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, from, price,company } = req.body;
+    const { name, from, price, company } = req.body;
+    const photo = req.file ? req.file.path : null;
 
     const booking = await Booking.findById(id);
 
@@ -81,6 +81,9 @@ router.put('/bookings/:id', authenticate, async (req, res) => {
     booking.from = from;
     booking.price = price;
     booking.company = company;
+    if (photo) {
+      booking.photo = photo; // ✅ This was missing
+    }
 
     await booking.save();
 
@@ -113,8 +116,6 @@ router.delete('/bookings/:id', authenticate, async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-
-
 
 module.exports = router;
 
